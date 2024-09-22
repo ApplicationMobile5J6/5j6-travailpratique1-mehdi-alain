@@ -6,4 +6,14 @@
     <string name="place_an_order">Place an order</string>
     <string name="show_orders">Show orders</string>
     <string name="title_activity_reservation">ReservationActivity</string>
+    <string name="online_reservation">Online reservation</string>
+    <string name="name_of_restaurant">Name of restaurant</string>
+    <string name="x_places_remaining">X places remaining</string>
+    <string name="select_a_day">Select a day</string>
+    <string name="selected_day">Selected day :</string>
+    <string name="selected_tables">Selected tables : 2</string>
+    <string name="end_time">End time : 17:30</string>
+    <string name="name_of_person">Name of person</string>
+    <string name="telephone_number">Telephone number</string>
+    <string name="submit_reservation">Submit reservation</string>
 </resources>
