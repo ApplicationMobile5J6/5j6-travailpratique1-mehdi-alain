@@ -2,7 +2,8 @@
     <string name="app_name">travailPratique1</string>
     <string name="noitavreser_inc">Noitavreser Inc</string>
     <string name="image_resto">EatPicture</string>
-    <string name="x_places_restantes">X Number of places remaining</string>
+    <string name="x_places_restantes">%d Number of places remaining</string>
     <string name="place_an_order">Place an order</string>
     <string name="show_orders">Show orders</string>
+    <string name="title_activity_reservation">ReservationActivity</string>
 </resources>

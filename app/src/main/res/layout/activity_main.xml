@@ -32,21 +32,21 @@
             android:layout_marginTop="20dp"/>
 
         <TextView
-            android:id="@+id/tv_placesRestants"
+            android:id="@+id/tv_remaining_seats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/x_places_restantes"
             android:layout_marginTop="20dp"/>
 
         <Button
-            android:id="@+id/btn_reserver"
+            android:id="@+id/btn_reserve_table"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/place_an_order"
             android:layout_marginTop="50dp" />
 
         <Button
-            android:id="@+id/btn_afficher"
+            android:id="@+id/btn_view_reservations"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/show_orders"

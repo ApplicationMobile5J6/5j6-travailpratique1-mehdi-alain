@@ -1,16 +1,18 @@
 package com.example.travailpratique1.models;
 
-public class Restaurant {
+import java.io.Serializable;
+
+public class Restaurant implements Serializable {
     private int noRestaurant;
     private String nomRestaurant;
     private int nbPlacesMax;
     private int nbPlacesRestantes;
 
-    public Restaurant(String nomRestaurant, int noRestaurant, int nbPlacesMax, int nbPlacesRestantes) {
-        this.nomRestaurant = nomRestaurant;
+    public Restaurant(int noRestaurant, String nomRestaurant, int nbPlacesMax) {
         this.noRestaurant = noRestaurant;
+        this.nomRestaurant = nomRestaurant;
         this.nbPlacesMax = nbPlacesMax;
-        this.nbPlacesRestantes = nbPlacesRestantes;
+        this.nbPlacesRestantes = nbPlacesMax; //Initiallement toutes les places de disponnibles
     }
 
     public int getNoRestaurant() {
