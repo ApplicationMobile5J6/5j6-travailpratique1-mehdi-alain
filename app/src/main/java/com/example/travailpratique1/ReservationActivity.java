@@ -1,18 +1,18 @@
 package com.example.travailpratique1;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.travailpratique1.models.Reservation;
 import com.example.travailpratique1.models.Restaurant;
@@ -28,6 +28,7 @@ public class ReservationActivity extends AppCompatActivity {
     private int selectedPlaces = 0;
     private String selectedTime = "";
     private String endTime = "";
+    private int position;
 
 
     @Override
@@ -36,6 +37,7 @@ public class ReservationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reservation);
 
         selectedRestaurant = (Restaurant) getIntent().getSerializableExtra("selectedRestaurant");
+        position = getIntent().getIntExtra("selectedRestaurantIndex", -1);
 
         TextView tvRestaurantName = findViewById(R.id.tv_restaurant_name);
         TextView tvRemainingSeats = findViewById(R.id.tv_remaining_seats);
@@ -101,6 +103,50 @@ public class ReservationActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
+        });
+
+
+        btnSubmitReservation.setOnClickListener(v -> {
+         String name = etName.getText().toString();
+         String phone = etPhone.getText().toString();
+
+            if (name.isEmpty() || phone.isEmpty() || selectedDate.isEmpty() || selectedPlaces == 0 || selectedTime.isEmpty()) {
+                Toast.makeText(this, getText(R.string.please_fill_all_fields), Toast.LENGTH_SHORT).show();
+            } else if (selectedRestaurant.getNbPlacesRestantes() < selectedPlaces){
+                Toast.makeText(this, getText(R.string.not_enough_space_remaining), Toast.LENGTH_SHORT).show();
+            } else {
+                int reservationNumber = reservations.size() + 1;
+                Reservation reservation = new Reservation(reservationNumber, selectedDate, selectedPlaces, selectedTime, endTime, name, phone);
+
+                reservations.add(reservation);
+
+                selectedRestaurant.reservePlaces(selectedPlaces);
+
+
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("updatedRestaurant", selectedRestaurant);
+                returnIntent.putExtra("selectedRestaurantIndex", position);
+                setResult(RESULT_OK, returnIntent);
+
+
+                tvRemainingSeats.setText("Places remaining : " + selectedRestaurant.getNbPlacesRestantes());
+
+                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+
+                String logMessage = "Réservation N° " + reservationNumber + ", Places : " + selectedPlaces +
+                        ", Date : " + selectedDate + ", Heure de début : " + selectedTime;
+
+                etName.setText("");
+                etPhone.setText("");
+                tvSelectedDate.setText("");
+                seekbarPlaces.setProgress(0);
+
+                Log.i("Info envoyee", logMessage);
+
+
+
+            }
+
         });
 
     }

@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvRemainingSeats;
     Button btnReserveTable;
     Button btnViewReservations;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedRestaurant = restaurants[position];
+                MainActivity.this.position = position;
                 updateRemainingSeats();
             }
 
@@ -56,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
         btnReserveTable.setOnClickListener(v -> {
             Intent intent = new Intent(this, ReservationActivity.class);
             intent.putExtra("selectedRestaurant", selectedRestaurant);
-            startActivity(intent);
+            intent.putExtra("selectedRestaurantIndex", position);
+            startActivityForResult(intent, 1);
         });
 
         btnViewReservations.setOnClickListener(v -> {
@@ -68,6 +73,27 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            // Get the updated Restaurant object
+            Restaurant updatedRestaurant  = (Restaurant) data.getSerializableExtra("updatedRestaurant");
+
+            int selectedRestaurantIndex = data.getIntExtra("selectedRestaurantIndex", -1);
+
+            restaurants[selectedRestaurantIndex] = updatedRestaurant;
+            selectedRestaurant = restaurants[selectedRestaurantIndex];
+
+            // Update the TextView to show the remaining seats
+            updateRemainingSeats();
+        }
+
+
+    }
+
     private void updateRemainingSeats() {
         int remainingSeats = selectedRestaurant.getNbPlacesRestantes();
 
@@ -75,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         tvRemainingSeats.setText(formattedText);
 
         if (remainingSeats <= 4) {
-            tvRemainingSeats.setTextColor(getResources().getColor(R.color.red));
+            tvRemainingSeats.setTextColor(getResources().getColor(R.color.redBold));
         } else {
             tvRemainingSeats.setTextColor(getResources().getColor(R.color.black));
         }

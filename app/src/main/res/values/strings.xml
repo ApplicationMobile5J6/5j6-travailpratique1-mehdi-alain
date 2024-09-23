@@ -16,4 +16,6 @@
     <string name="name_of_person">Name of person</string>
     <string name="telephone_number">Telephone number</string>
     <string name="submit_reservation">Submit reservation</string>
+    <string name="please_fill_all_fields">Please fill all fields</string>
+    <string name="not_enough_space_remaining">Not enough space remaining</string>
 </resources>
