@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            // Get the updated Restaurant object
+
             Restaurant updatedRestaurant  = (Restaurant) data.getSerializableExtra("updatedRestaurant");
 
             int selectedRestaurantIndex = data.getIntExtra("selectedRestaurantIndex", -1);
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             restaurants[selectedRestaurantIndex] = updatedRestaurant;
             selectedRestaurant = restaurants[selectedRestaurantIndex];
 
-            // Update the TextView to show the remaining seats
+
             updateRemainingSeats();
         }
 

@@ -29,6 +29,7 @@ public class ReservationActivity extends AppCompatActivity {
     private String selectedTime = "";
     private String endTime = "";
     private int position;
+    TextView tvRemainingSeats;
 
 
     @Override
@@ -40,7 +41,7 @@ public class ReservationActivity extends AppCompatActivity {
         position = getIntent().getIntExtra("selectedRestaurantIndex", -1);
 
         TextView tvRestaurantName = findViewById(R.id.tv_restaurant_name);
-        TextView tvRemainingSeats = findViewById(R.id.tv_remaining_seats);
+         tvRemainingSeats = findViewById(R.id.tv_remaining_seats);
         Button btnSelectDate = findViewById(R.id.btn_select_date);
         TextView tvSelectedDate = findViewById(R.id.tv_selected_date);
         SeekBar seekbarPlaces = findViewById(R.id.seekbar_places);
@@ -53,6 +54,9 @@ public class ReservationActivity extends AppCompatActivity {
 
         tvRestaurantName.setText(selectedRestaurant.getNomRestaurant());
         tvRemainingSeats.setText("Places remaining : " + selectedRestaurant.getNbPlacesRestantes());
+        updateRemainingSeatsAndColor();
+
+
 
         ArrayAdapter<String> timeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
                 new String[]{"16:00", "17:30", "19:00", "20:30", "22:00"});
@@ -130,6 +134,7 @@ public class ReservationActivity extends AppCompatActivity {
 
 
                 tvRemainingSeats.setText("Places remaining : " + selectedRestaurant.getNbPlacesRestantes());
+                updateRemainingSeatsAndColor();
 
                 Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
 
@@ -149,6 +154,21 @@ public class ReservationActivity extends AppCompatActivity {
 
         });
 
+    }
+
+    private void updateRemainingSeatsAndColor() {
+
+        int remainingSeats = selectedRestaurant.getNbPlacesRestantes();
+
+
+        String formattedText = getString(R.string.x_places_restantes, remainingSeats);
+        tvRemainingSeats.setText(formattedText);
+
+        if (remainingSeats <= 4) {
+            tvRemainingSeats.setTextColor(getResources().getColor(R.color.redBold));
+        } else {
+            tvRemainingSeats.setTextColor(getResources().getColor(R.color.black));
+        }
     }
 
     private String calculateEndTime(String startTime) {
