@@ -2,6 +2,7 @@ package com.example.travailpratique1;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,7 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.example.travailpratique1.models.Reservation;
 import com.example.travailpratique1.models.Restaurant;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
             new Restaurant(1, "Chez Alain", 30),
             new Restaurant(2, "Chez Mehdi", 16)
     };
+
+    private ArrayList<Reservation> reservations = new ArrayList<>();
+
     private Restaurant selectedRestaurant;
     Spinner spinnerRestaurants;
     private TextView tvRemainingSeats;
@@ -61,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ReservationActivity.class);
             intent.putExtra("selectedRestaurant", selectedRestaurant);
             intent.putExtra("selectedRestaurantIndex", position);
+            intent.putExtra("reservations",reservations );
             startActivityForResult(intent, 1);
         });
 
@@ -82,13 +90,21 @@ public class MainActivity extends AppCompatActivity {
 
             Restaurant updatedRestaurant  = (Restaurant) data.getSerializableExtra("updatedRestaurant");
 
+            reservations.clear();
+            reservations.addAll( (ArrayList<Reservation>) data.getSerializableExtra("reservations"));
+
             int selectedRestaurantIndex = data.getIntExtra("selectedRestaurantIndex", -1);
 
             restaurants[selectedRestaurantIndex] = updatedRestaurant;
             selectedRestaurant = restaurants[selectedRestaurantIndex];
 
-
             updateRemainingSeats();
+
+            for (Reservation reservation : reservations) {
+                Log.d("reservations", reservation.toString());
+            }
+
+
         }
 
 

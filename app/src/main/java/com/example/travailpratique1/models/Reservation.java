@@ -1,6 +1,10 @@
 package com.example.travailpratique1.models;
 
-public class Reservation {
+import androidx.annotation.NonNull;
+
+import java.io.Serializable;
+
+public class Reservation implements Serializable {
     private int noReservation;
     private String dateReservation;
     private int nbPlace;
@@ -78,5 +82,13 @@ public class Reservation {
 
     private String calculateEndTime(String startTime) {
         return startTime + " + 1h29";
+    }
+
+
+    @NonNull
+    @Override
+    public String toString() {
+        return noReservation + " " + dateReservation + " " + nbPlace + " " + blocReservationDebut +
+                " " + blocReservationFin + " " + nomPersonne + " " + telPersonne;
     }
 }

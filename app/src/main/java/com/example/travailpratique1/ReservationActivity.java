@@ -25,7 +25,7 @@ import java.util.Calendar;
 public class ReservationActivity extends AppCompatActivity {
 
     private Restaurant selectedRestaurant;
-    private ArrayList<Reservation> reservations = new ArrayList<>();
+    private ArrayList<Reservation> reservations;
     private String selectedDate = "";
     private int selectedPlaces = 0;
     private String selectedTime = "";
@@ -40,6 +40,7 @@ public class ReservationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reservation);
 
         selectedRestaurant = (Restaurant) getIntent().getSerializableExtra("selectedRestaurant");
+        reservations = (ArrayList<Reservation>) getIntent().getSerializableExtra("reservations");
         position = getIntent().getIntExtra("selectedRestaurantIndex", -1);
 
         TextView tvRestaurantName = findViewById(R.id.tv_restaurant_name);
@@ -125,6 +126,8 @@ public class ReservationActivity extends AppCompatActivity {
                 Toast.makeText(this, getText(R.string.not_enough_space_remaining), Toast.LENGTH_SHORT).show();
             } else {
                 int reservationNumber = reservations.size() + 1;
+
+                Log.d("reservationNumber", String.valueOf(reservationNumber));
                 Reservation reservation = new Reservation(reservationNumber, selectedDate, selectedPlaces, selectedTime, endTime, name, phone);
 
                 reservations.add(reservation);
@@ -135,6 +138,7 @@ public class ReservationActivity extends AppCompatActivity {
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("updatedRestaurant", selectedRestaurant);
                 returnIntent.putExtra("selectedRestaurantIndex", position);
+                returnIntent.putExtra("reservations", reservations);
                 setResult(RESULT_OK, returnIntent);
 
 
