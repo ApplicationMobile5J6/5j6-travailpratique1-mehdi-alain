@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">travailPratique1</string>
+    <string name="noitavreser_inc">Noitavreser Inc</string>
+    <string name="image_resto">ImageManger</string>
+    <string name="x_places_restantes">%d places restantes</string>
+    <string name="place_an_order">Placer une commande</string>
+    <string name="show_orders">Montrer les commandes</string>
+    <string name="title_activity_reservation">ReservationActivity</string>
+    <string name="online_reservation">Reservation en ligne</string>
+    <string name="name_of_restaurant">Nom du restaurant</string>
+    <string name="x_places_remaining">X places restantes</string>
+    <string name="select_a_day">Selection du jour</string>
+    <string name="selected_day">Jour selectionne</string>
+    <string name="selected_tables">Places selectionnees</string>
+    <string name="end_time">Temps de fin : </string>
+    <string name="name_of_person">Nom de la personne</string>
+    <string name="telephone_number">Numero de telephone</string>
+    <string name="submit_reservation">Reserver</string>
+    <string name="please_fill_all_fields">Remplir tous les champs</string>
+    <string name="not_enough_space_remaining">Pas assez de places restantes</string>
+    <string name="invalid_phone_number">Numero de telephone invalide</string>
+    <string name="success">Succès</string>
+</resources>

@@ -2,7 +2,7 @@
     <string name="app_name">travailPratique1</string>
     <string name="noitavreser_inc">Noitavreser Inc</string>
     <string name="image_resto">EatPicture</string>
-    <string name="x_places_restantes">%d Number of places remaining</string>
+    <string name="x_places_restantes">%d places remaining</string>
     <string name="place_an_order">Place an order</string>
     <string name="show_orders">Show orders</string>
     <string name="title_activity_reservation">ReservationActivity</string>
@@ -10,12 +10,14 @@
     <string name="name_of_restaurant">Name of restaurant</string>
     <string name="x_places_remaining">X places remaining</string>
     <string name="select_a_day">Select a day</string>
-    <string name="selected_day">Selected day :</string>
-    <string name="selected_tables">Selected tables : 2</string>
-    <string name="end_time">End time : 17:30</string>
+    <string name="selected_day">Selected day</string>
+    <string name="selected_tables">Selected tables</string>
+    <string name="end_time">End time : </string>
     <string name="name_of_person">Name of person</string>
     <string name="telephone_number">Telephone number</string>
     <string name="submit_reservation">Submit reservation</string>
     <string name="please_fill_all_fields">Please fill all fields</string>
     <string name="not_enough_space_remaining">Not enough space remaining</string>
+    <string name="invalid_phone_number">Invalid phone number</string>
+    <string name="success">Success</string>
 </resources>

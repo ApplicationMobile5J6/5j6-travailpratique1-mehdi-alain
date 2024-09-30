@@ -3,6 +3,8 @@ package com.example.travailpratique1;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -113,9 +115,12 @@ public class ReservationActivity extends AppCompatActivity {
         btnSubmitReservation.setOnClickListener(v -> {
          String name = etName.getText().toString();
          String phone = etPhone.getText().toString();
+         String phoneNumberWithoutDashes = phone.replace("-", "");
 
             if (name.isEmpty() || phone.isEmpty() || selectedDate.isEmpty() || selectedPlaces == 0 || selectedTime.isEmpty()) {
                 Toast.makeText(this, getText(R.string.please_fill_all_fields), Toast.LENGTH_SHORT).show();
+            } else if(phoneNumberWithoutDashes.length() != 10){
+                Toast.makeText(this, getText(R.string.invalid_phone_number), Toast.LENGTH_SHORT).show();
             } else if (selectedRestaurant.getNbPlacesRestantes() < selectedPlaces){
                 Toast.makeText(this, getText(R.string.not_enough_space_remaining), Toast.LENGTH_SHORT).show();
             } else {
@@ -136,7 +141,7 @@ public class ReservationActivity extends AppCompatActivity {
                 tvRemainingSeats.setText("Places remaining : " + selectedRestaurant.getNbPlacesRestantes());
                 updateRemainingSeatsAndColor();
 
-                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getText(R.string.success), Toast.LENGTH_SHORT).show();
 
                 String logMessage = "Réservation N° " + reservationNumber + ", Places : " + selectedPlaces +
                         ", Date : " + selectedDate + ", Heure de début : " + selectedTime;
@@ -154,7 +159,60 @@ public class ReservationActivity extends AppCompatActivity {
 
         });
 
+        etPhone.addTextChangedListener(new TextWatcher() {
+
+            private boolean isUpdating;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (isUpdating) {
+                    return;
+                }
+
+                isUpdating = true;
+
+                String input = s.toString().replaceAll("[^\\d]", "");
+
+                String formatted = formatPhoneNumber(input);
+
+                etPhone.setText(formatted);
+                etPhone.setSelection(formatted.length());
+
+                isUpdating = false;
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
+
+    private String formatPhoneNumber(String input) {
+        StringBuilder formatted = new StringBuilder();
+
+        int length = input.length();
+        if (length > 0) {
+            formatted.append(input.substring(0, Math.min(3, length)));
+        }
+        if (length > 3) {
+            formatted.append("-").append(input.substring(3, Math.min(6, length)));
+        }
+        if (length > 6) {
+            formatted.append("-").append(input.substring(6, Math.min(10, length)));
+        }
+
+        return formatted.toString();
+    }
+
 
     private void updateRemainingSeatsAndColor() {
 
