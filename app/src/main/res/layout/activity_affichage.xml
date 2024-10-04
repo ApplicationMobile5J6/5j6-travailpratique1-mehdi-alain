@@ -7,4 +7,29 @@
     android:layout_height="match_parent"
     tools:context=".AffichageActivity">
 
+    <ListView
+        android:id="@+id/lv_reservations"
+        android:layout_width="match_parent"
+        android:layout_height="513dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_restaurant_name2"
+        android:layout_width="120dp"
+        android:layout_height="22dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinner_dates"
+        android:layout_width="404dp"
+        android:layout_height="66dp"
+        app:layout_constraintBottom_toTopOf="@+id/lv_reservations"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_restaurant_name2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

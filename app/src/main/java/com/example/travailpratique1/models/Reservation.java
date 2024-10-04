@@ -12,9 +12,10 @@ public class Reservation implements Serializable {
     private String blocReservationFin;
     private String nomPersonne;
     private String telPersonne;
+    private String restaurant;
 
 
-    public Reservation(int noReservation, String dateReservation, int nbPlace, String blocReservationDebut, String blocReservationFin, String nomPersonne, String telPersonne) {
+    public Reservation(int noReservation, String dateReservation, int nbPlace, String blocReservationDebut, String blocReservationFin, String nomPersonne, String telPersonne, String restaurant) {
         this.noReservation = noReservation;
         this.dateReservation = dateReservation;
         this.nbPlace = nbPlace;
@@ -22,6 +23,7 @@ public class Reservation implements Serializable {
         this.blocReservationFin = calculateEndTime(blocReservationDebut);
         this.nomPersonne = nomPersonne;
         this.telPersonne = telPersonne;
+        this.restaurant = restaurant;
     }
 
     public int getNoReservation() {
@@ -80,8 +82,25 @@ public class Reservation implements Serializable {
         this.telPersonne = telPersonne;
     }
 
-    private String calculateEndTime(String startTime) {
-        return startTime + " + 1h29";
+    public String getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant (String restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public static String calculateEndTime(String startTime) {
+
+        switch (startTime) {
+            case "16:00": return "17:29";
+            case "17:30": return "18:59";
+            case "19:00": return "20:29";
+            case "20:30": return "21:59";
+            case "22:00": return "23:29";
+            default: return "17:29";
+        }
+
     }
 
 
@@ -89,6 +108,6 @@ public class Reservation implements Serializable {
     @Override
     public String toString() {
         return noReservation + " " + dateReservation + " " + nbPlace + " " + blocReservationDebut +
-                " " + blocReservationFin + " " + nomPersonne + " " + telPersonne;
+                " " + blocReservationFin + " " + nomPersonne + " " + telPersonne + " " + restaurant;
     }
 }

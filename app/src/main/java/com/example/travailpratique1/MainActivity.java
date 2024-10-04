@@ -73,12 +73,28 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnViewReservations.setOnClickListener(v -> {
+
             Intent intent = new Intent(this, AffichageActivity.class);
             intent.putExtra("selectedRestaurant", selectedRestaurant);
+            intent.putExtra("selectedRestaurantIndex", position);
+            intent.putExtra("reservations", restaurantFiltre());
             startActivity(intent);
         });
 
 
+    }
+
+    private ArrayList<Reservation> restaurantFiltre() {
+        ArrayList<Reservation> filteredReservations = new ArrayList<>();
+
+        for(Reservation reservation : reservations){
+
+            if(reservation.getRestaurant().equals(selectedRestaurant.getNomRestaurant())){
+                filteredReservations.add(reservation);
+            }
+        }
+
+        return filteredReservations;
     }
 
     @Override

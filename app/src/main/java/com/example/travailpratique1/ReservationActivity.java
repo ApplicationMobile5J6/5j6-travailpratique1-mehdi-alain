@@ -70,7 +70,7 @@ public class ReservationActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedTime = parent.getItemAtPosition(position).toString();
-                endTime = calculateEndTime(selectedTime);
+                endTime = Reservation.calculateEndTime(selectedTime);
                 tvEndTime.setText("End time : " + endTime);
             }
 
@@ -128,7 +128,7 @@ public class ReservationActivity extends AppCompatActivity {
                 int reservationNumber = reservations.size() + 1;
 
                 Log.d("reservationNumber", String.valueOf(reservationNumber));
-                Reservation reservation = new Reservation(reservationNumber, selectedDate, selectedPlaces, selectedTime, endTime, name, phone);
+                Reservation reservation = new Reservation(reservationNumber, selectedDate, selectedPlaces, selectedTime, endTime, name, phone, selectedRestaurant.getNomRestaurant());
 
                 reservations.add(reservation);
 
@@ -230,17 +230,6 @@ public class ReservationActivity extends AppCompatActivity {
             tvRemainingSeats.setTextColor(getResources().getColor(R.color.redBold));
         } else {
             tvRemainingSeats.setTextColor(getResources().getColor(R.color.black));
-        }
-    }
-
-    private String calculateEndTime(String startTime) {
-        switch (startTime) {
-            case "16:00": return "17:29";
-            case "17:30": return "18:59";
-            case "19:00": return "20:29";
-            case "20:30": return "21:59";
-            case "22:00": return "23:29";
-            default: return "17:29";
         }
     }
 
