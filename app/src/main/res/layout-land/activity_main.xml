@@ -8,8 +8,8 @@
 
         <ImageView
             android:id="@+id/iv_logoRestau"
-            android:layout_width="400dp"
-            android:layout_height="200dp"
+            android:layout_width="328dp"
+            android:layout_height="132dp"
             android:contentDescription="@string/image_resto"
             android:src="@drawable/cutlery" />
 
@@ -29,7 +29,7 @@
             android:id="@+id/spn_restaurantsDeroulants"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="15dp" />
 
         <TextView
             android:id="@+id/tv_remaining_seats"
@@ -43,14 +43,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/place_an_order"
-            android:layout_marginTop="50dp" />
+            android:layout_marginTop="30dp" />
 
         <Button
             android:id="@+id/btn_view_reservations"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/show_orders"
-            android:layout_marginTop="50dp" />
+            android:layout_marginTop="30dp" />
 
 </LinearLayout>
 

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -45,6 +46,14 @@ public class MainActivity extends AppCompatActivity {
         btnReserveTable = findViewById(R.id.btn_reserve_table);
         btnViewReservations = findViewById(R.id.btn_view_reservations);
 
+        if (savedInstanceState != null) {
+            position = savedInstanceState.getInt("position");
+            selectedRestaurant = (Restaurant) savedInstanceState.getSerializable("selectedRestaurant");
+            reservations = (ArrayList<Reservation>) savedInstanceState.getSerializable("reservations");
+            restaurants = (Restaurant[]) savedInstanceState.getSerializable("restaurants");
+
+        }
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[] {"Chez Alain", "Chez Mehdi"} );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerRestaurants.setAdapter(adapter);
@@ -59,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                selectedRestaurant = restaurants[0];
+                //selectedRestaurant = restaurants[0];
 
             }
         });
@@ -80,8 +89,16 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("reservations", restaurantFiltre());
             startActivity(intent);
         });
+    }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
 
+        outState.putInt("position", position);
+        outState.putSerializable("selectedRestaurant", selectedRestaurant);
+        outState.putSerializable("reservations", reservations);
+        outState.putSerializable("restaurants", restaurants);
     }
 
     private ArrayList<Reservation> restaurantFiltre() {

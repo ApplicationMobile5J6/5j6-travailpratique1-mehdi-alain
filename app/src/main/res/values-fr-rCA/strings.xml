@@ -21,4 +21,7 @@
     <string name="not_enough_space_remaining">Pas assez de places restantes</string>
     <string name="invalid_phone_number">Numero de telephone invalide</string>
     <string name="success">Succès</string>
+    <string name="reservation_number">N° de reservation</string>
+    <string name="phone">téléphone</string>
+    <string name="select_date">Sélectionner une date</string>
 </resources>

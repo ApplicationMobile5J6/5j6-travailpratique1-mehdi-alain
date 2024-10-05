@@ -15,6 +15,8 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.travailpratique1.models.Reservation;
 import com.example.travailpratique1.models.Restaurant;
@@ -39,10 +41,6 @@ public class ReservationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation);
 
-        selectedRestaurant = (Restaurant) getIntent().getSerializableExtra("selectedRestaurant");
-        reservations = (ArrayList<Reservation>) getIntent().getSerializableExtra("reservations");
-        position = getIntent().getIntExtra("selectedRestaurantIndex", -1);
-
         TextView tvRestaurantName = findViewById(R.id.tv_restaurant_name);
          tvRemainingSeats = findViewById(R.id.tv_remaining_seats);
         Button btnSelectDate = findViewById(R.id.btn_select_date);
@@ -55,10 +53,31 @@ public class ReservationActivity extends AppCompatActivity {
         EditText etPhone = findViewById(R.id.et_phone);
         Button btnSubmitReservation = findViewById(R.id.btn_submit_reservation);
 
+
+        if (savedInstanceState != null) {
+
+            selectedRestaurant = (Restaurant) savedInstanceState.getSerializable("selectedRestaurant");
+            reservations = (ArrayList<Reservation>) savedInstanceState.getSerializable("reservations");
+            position = savedInstanceState.getInt("position");
+
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("updatedRestaurant", selectedRestaurant);
+            returnIntent.putExtra("selectedRestaurantIndex", position);
+            returnIntent.putExtra("reservations", reservations);
+            setResult(RESULT_OK, returnIntent);
+
+        } else {
+
+            selectedRestaurant = (Restaurant) getIntent().getSerializableExtra("selectedRestaurant");
+            reservations = (ArrayList<Reservation>) getIntent().getSerializableExtra("reservations");
+            position = getIntent().getIntExtra("selectedRestaurantIndex", -1);
+
+        }
+
+
         tvRestaurantName.setText(selectedRestaurant.getNomRestaurant());
         tvRemainingSeats.setText("Places remaining : " + selectedRestaurant.getNbPlacesRestantes());
         updateRemainingSeatsAndColor();
-
 
 
         ArrayAdapter<String> timeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
@@ -197,6 +216,17 @@ public class ReservationActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putSerializable("selectedRestaurant", selectedRestaurant);
+        outState.putSerializable("reservations", reservations);
+        outState.putInt("position", position);
+
 
     }
 
