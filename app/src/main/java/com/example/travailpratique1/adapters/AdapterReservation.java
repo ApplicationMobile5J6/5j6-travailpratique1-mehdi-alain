@@ -37,8 +37,8 @@ public class AdapterReservation extends ArrayAdapter<Reservation> {
         TextView tvHeures = view.findViewById(R.id.tv_heures);
 
         tvNom.setText(reservation.getNomPersonne());
-        tvPlaces.setText(String.valueOf(reservation.getNbPlace()));
-        tvHeures.setText(reservation.getBlocReservationDebut() + " " + reservation.getBlocReservationFin());
+        tvPlaces.setText(String.valueOf(reservation.getNbPlace()) + getContext().getString(R.string.places));
+        tvHeures.setText(reservation.getBlocReservationDebut() + " / " + reservation.getBlocReservationFin());
 
         return view;
 
