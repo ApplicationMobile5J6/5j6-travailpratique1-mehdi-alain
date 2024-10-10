@@ -90,6 +90,23 @@ public class ReservationActivity extends AppCompatActivity {
         });
 
 
+        seekBarPlaces.setMax(10);
+
+        seekBarPlaces.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                selectedPlaces = progress;
+                tvPlacesSelected.setText("Places: " + selectedPlaces);
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
+
+
+
 
     }
 
