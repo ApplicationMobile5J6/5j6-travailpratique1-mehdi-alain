@@ -105,9 +105,44 @@ public class ReservationActivity extends AppCompatActivity {
         });
 
 
+        String[] timeOptions = {"16:00", "17:30", "19:00", "20:30", "22:00"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, timeOptions);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerTime.setAdapter(adapter);
+
+        spinnerTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedTime = timeOptions[position];
+
+                endTime = calculateEndTime(selectedTime);
+                tvEndTime.setText("Heure de fin : " + endTime);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
 
 
+
+
+    }
+
+    private String calculateEndTime(String startTime) {
+        String[] timeParts = startTime.split(":");
+        int hours = Integer.parseInt(timeParts[0]);
+        int minutes = Integer.parseInt(timeParts[1]);
+
+        minutes += 29;
+        if (minutes >= 60) {
+            hours += 1;
+            minutes -= 60;
+        }
+        hours += 1;
+
+        return String.format("%02d:%02d", hours, minutes);
     }
 
 }
