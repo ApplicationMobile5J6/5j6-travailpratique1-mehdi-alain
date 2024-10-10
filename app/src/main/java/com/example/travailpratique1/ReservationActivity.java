@@ -33,13 +33,43 @@ public class ReservationActivity extends AppCompatActivity {
     private String selectedTime = "";
     private String endTime = "";
     private int position;
-    TextView tvRemainingSeats;
+
+    private TextView tvRestaurant;
+    private TextView tvRemainingSeats;
+    private TextView tvSelectedDate;
+    private Button btnSelectDate;
+    private SeekBar seekBarPlaces;
+    private TextView tvPlacesSelected;
+    private Spinner spinnerTime;
+    private TextView tvEndTime;
+    private EditText etName;
+    private EditText etPhone;
+    private Button btnSubmitReservation;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation);
+
+        tvRestaurant = findViewById(R.id.tv_restaurant_name);
+        tvRemainingSeats = findViewById(R.id.tv_remaining_seats);
+        tvSelectedDate = findViewById(R.id.tv_selected_date);
+        btnSelectDate = findViewById(R.id.btn_select_date);
+        seekBarPlaces = findViewById(R.id.seekbar_places);
+        tvPlacesSelected = findViewById(R.id.tv_places_selected);
+        spinnerTime = findViewById(R.id.spinner_time);
+        tvEndTime = findViewById(R.id.tv_end_time);
+        etName = findViewById(R.id.et_name);
+        etPhone = findViewById(R.id.et_phone);
+        btnSubmitReservation = findViewById(R.id.btn_submit_reservation);
+
+        selectedRestaurant = (Restaurant) getIntent().getSerializableExtra("selectedRestaurant");
+        reservations = (ArrayList<Reservation>) getIntent().getSerializableExtra("reservations");
+        position = getIntent().getIntExtra("selectedRestaurantIndex", -1);
+
+        tvRestaurant.setText(selectedRestaurant.getNomRestaurant());
+        tvRemainingSeats.setText(String.valueOf(selectedRestaurant.getNbPlacesRestantes()));
 
 
     }
