@@ -71,6 +71,25 @@ public class ReservationActivity extends AppCompatActivity {
         tvRestaurant.setText(selectedRestaurant.getNomRestaurant());
         tvRemainingSeats.setText(String.valueOf(selectedRestaurant.getNbPlacesRestantes()));
 
+        btnSelectDate.setOnClickListener(v -> {
+
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    ReservationActivity.this,
+                    (view, selectedYear, selectedMonth, selectedDay) -> {
+                        selectedDate = selectedYear + "-" + (selectedMonth + 1) + "-" + selectedDay;
+                        tvSelectedDate.setText(selectedDate);
+                    },
+                    year, month, day
+            );
+            datePickerDialog.show();
+        });
+
+
 
     }
 
