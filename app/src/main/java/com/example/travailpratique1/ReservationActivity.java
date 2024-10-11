@@ -92,6 +92,7 @@ public class ReservationActivity extends AppCompatActivity {
 
         tvRestaurant.setText(selectedRestaurant.getNomRestaurant());
         tvRemainingSeats.setText(String.valueOf(selectedRestaurant.getNbPlacesRestantes()));
+        updateRemainingSeatsColor();
 
         btnSelectDate.setOnClickListener(v -> {
 
@@ -118,7 +119,7 @@ public class ReservationActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 selectedPlaces = progress;
-                tvPlacesSelected.setText("Places: " + selectedPlaces);
+                tvPlacesSelected.setText(getString(R.string.places) + selectedPlaces);
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -139,7 +140,7 @@ public class ReservationActivity extends AppCompatActivity {
                 selectedTime = timeOptions[position];
 
                 endTime = calculateEndTime(selectedTime);
-                tvEndTime.setText("Heure de fin : " + endTime);
+                tvEndTime.setText(getString(R.string.end_time) + endTime);
             }
 
             @Override
@@ -172,7 +173,7 @@ public class ReservationActivity extends AppCompatActivity {
                 setResult(RESULT_OK, returnIntent);
 
 
-                Toast.makeText(ReservationActivity.this, "La réservation a été sauvegardée", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReservationActivity.this, getString(R.string.success), Toast.LENGTH_SHORT).show();
 
 
                 Log.d("reservation", newReservation.toString());
@@ -219,27 +220,25 @@ public class ReservationActivity extends AppCompatActivity {
         String phone = etPhone.getText().toString().trim();
 
         if (name.isEmpty()) {
-            message = "Veuillez entrer un nom";
+            message = getString(R.string.please_fill_all_fields);
             valid = false;
         }
 
         if (phone.isEmpty() || !isValidPhoneNumber(phone)) {
-            message = "Veuillez entrer un numéro de téléphone";
+            message = getString(R.string.please_fill_all_fields);
             valid = false;
         }
 
         if (selectedDate.isEmpty()) {
-            message = "Veuillez sélectionner une date";
+            message = getString(R.string.please_fill_all_fields);
             valid = false;
         }
 
         if (selectedPlaces == 0 || selectedPlaces > selectedRestaurant.getNbPlacesRestantes()) {
-            message = "Veuillez sélectionner un bon nombre de places";
-            valid = false;
-        }
-
-        if (selectedDate.isEmpty()) {
-            message = "Veuillez sélectionner une date";
+            message = getString(R.string.not_enough_space_remaining);
+            if (selectedPlaces == 0) {
+                message = getString(R.string.please_fill_all_fields);
+            }
             valid = false;
         }
 
