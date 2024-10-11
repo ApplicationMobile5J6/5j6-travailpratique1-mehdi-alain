@@ -1,12 +1,14 @@
 package com.example.travailpratique1;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -33,7 +35,6 @@ public class ReservationActivity extends AppCompatActivity {
     private String selectedTime = "";
     private String endTime = "";
     private int position;
-    private int compteur = 0;
 
     private TextView tvRestaurant;
     private TextView tvRemainingSeats;
@@ -156,9 +157,9 @@ public class ReservationActivity extends AppCompatActivity {
             boolean validForm = isValidEntries();
 
             if (validForm) {
+                int reservationNumber = reservations.size() + 1;
 
-                compteur++;
-                Reservation newReservation = new Reservation(compteur, selectedDate, selectedPlaces, selectedTime, endTime, name, phone, selectedRestaurant.getNomRestaurant());
+                Reservation newReservation = new Reservation(reservationNumber, selectedDate, selectedPlaces, selectedTime, endTime, name, phone, selectedRestaurant.getNomRestaurant());
                 reservations.add(newReservation);
 
 
@@ -189,7 +190,7 @@ public class ReservationActivity extends AppCompatActivity {
 
             }
 
-
+            hideKeyboard();
 
         });
 
@@ -271,6 +272,14 @@ public class ReservationActivity extends AppCompatActivity {
             tvRemainingSeats.setTextColor(getResources().getColor(R.color.redBold));
         } else {
             tvRemainingSeats.setTextColor(getResources().getColor(R.color.black));
+        }
+    }
+
+    private void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 

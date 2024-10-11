@@ -24,5 +24,5 @@
     <string name="reservation_number">N° de reservation</string>
     <string name="phone">téléphone</string>
     <string name="select_date">Sélectionner une date</string>
-    <string name="places">" places"</string>
+    <string name="places">"places : "</string>
 </resources>
