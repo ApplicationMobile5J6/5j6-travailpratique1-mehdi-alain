@@ -33,6 +33,7 @@ public class ReservationActivity extends AppCompatActivity {
     private String selectedTime = "";
     private String endTime = "";
     private int position;
+    private int compteur = 0;
 
     private TextView tvRestaurant;
     private TextView tvRemainingSeats;
@@ -64,9 +65,30 @@ public class ReservationActivity extends AppCompatActivity {
         etPhone = findViewById(R.id.et_phone);
         btnSubmitReservation = findViewById(R.id.btn_submit_reservation);
 
-        selectedRestaurant = (Restaurant) getIntent().getSerializableExtra("selectedRestaurant");
-        reservations = (ArrayList<Reservation>) getIntent().getSerializableExtra("reservations");
-        position = getIntent().getIntExtra("selectedRestaurantIndex", -1);
+        if (savedInstanceState != null) {
+
+            selectedRestaurant = (Restaurant) savedInstanceState.getSerializable("selectedRestaurant");
+            reservations = (ArrayList<Reservation>) savedInstanceState.getSerializable("reservations");
+            position = savedInstanceState.getInt("position");
+            selectedDate = savedInstanceState.getString("selectedDate");
+
+            if (selectedDate != null && !selectedDate.isEmpty()) {
+                tvSelectedDate.setText(selectedDate);
+            }
+
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("updatedRestaurant", selectedRestaurant);
+            returnIntent.putExtra("selectedRestaurantIndex", position);
+            returnIntent.putExtra("reservations", reservations);
+            setResult(RESULT_OK, returnIntent);
+
+        } else {
+
+            selectedRestaurant = (Restaurant) getIntent().getSerializableExtra("selectedRestaurant");
+            reservations = (ArrayList<Reservation>) getIntent().getSerializableExtra("reservations");
+            position = getIntent().getIntExtra("selectedRestaurantIndex", -1);
+
+        }
 
         tvRestaurant.setText(selectedRestaurant.getNomRestaurant());
         tvRemainingSeats.setText(String.valueOf(selectedRestaurant.getNbPlacesRestantes()));
@@ -82,11 +104,11 @@ public class ReservationActivity extends AppCompatActivity {
                     ReservationActivity.this,
                     (view, selectedYear, selectedMonth, selectedDay) -> {
                         selectedDate = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
-                        tvSelectedDate.setText(selectedDate);
                     },
                     year, month, day
             );
             datePickerDialog.show();
+            tvSelectedDate.setText(selectedDate);
         });
 
 
@@ -134,12 +156,20 @@ public class ReservationActivity extends AppCompatActivity {
 
             if (validForm) {
 
-                Reservation newReservation = new Reservation(selectedDate, selectedPlaces, selectedTime, endTime, name, phone, selectedRestaurant.getNomRestaurant());
+                compteur++;
+                Reservation newReservation = new Reservation(compteur, selectedDate, selectedPlaces, selectedTime, endTime, name, phone, selectedRestaurant.getNomRestaurant());
                 reservations.add(newReservation);
 
 
-                selectedRestaurant.setNbPlacesRestantes(selectedRestaurant.getNbPlacesRestantes() - selectedPlaces);
+                selectedRestaurant.reservePlaces(selectedPlaces);
                 tvRemainingSeats.setText(String.valueOf(selectedRestaurant.getNbPlacesRestantes()));
+                updateRemainingSeatsColor();
+
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("updatedRestaurant", selectedRestaurant);
+                returnIntent.putExtra("selectedRestaurantIndex", position);
+                returnIntent.putExtra("reservations", reservations);
+                setResult(RESULT_OK, returnIntent);
 
 
                 Toast.makeText(ReservationActivity.this, "La réservation a été sauvegardée", Toast.LENGTH_SHORT).show();
@@ -221,6 +251,28 @@ public class ReservationActivity extends AppCompatActivity {
 
     private boolean isValidPhoneNumber(String phone) {
         return phone.matches("\\d{10}");
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putSerializable("selectedRestaurant", selectedRestaurant);
+        outState.putSerializable("reservations", reservations);
+        outState.putInt("position", position);
+        outState.putString("selectedDate", selectedDate);
+
+    }
+
+    private void updateRemainingSeatsColor() {
+
+        int remainingSeats = selectedRestaurant.getNbPlacesRestantes();
+
+        if (remainingSeats <= 4) {
+            tvRemainingSeats.setTextColor(getResources().getColor(R.color.redBold));
+        } else {
+            tvRemainingSeats.setTextColor(getResources().getColor(R.color.black));
+        }
     }
 
 
