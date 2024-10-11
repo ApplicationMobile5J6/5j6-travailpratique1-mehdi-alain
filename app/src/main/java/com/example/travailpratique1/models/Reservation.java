@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import java.io.Serializable;
 
 public class Reservation implements Serializable {
-    private int noReservation;
+    private int noReservation = 0;
     private String dateReservation;
     private int nbPlace;
     private String blocReservationDebut;
@@ -15,8 +15,8 @@ public class Reservation implements Serializable {
     private String restaurant;
 
 
-    public Reservation(int noReservation, String dateReservation, int nbPlace, String blocReservationDebut, String blocReservationFin, String nomPersonne, String telPersonne, String restaurant) {
-        this.noReservation = noReservation;
+    public Reservation(String dateReservation, int nbPlace, String blocReservationDebut, String blocReservationFin, String nomPersonne, String telPersonne, String restaurant) {
+        this.noReservation++;
         this.dateReservation = dateReservation;
         this.nbPlace = nbPlace;
         this.blocReservationDebut = blocReservationDebut;

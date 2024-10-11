@@ -81,7 +81,7 @@ public class ReservationActivity extends AppCompatActivity {
             DatePickerDialog datePickerDialog = new DatePickerDialog(
                     ReservationActivity.this,
                     (view, selectedYear, selectedMonth, selectedDay) -> {
-                        selectedDate = selectedYear + "-" + (selectedMonth + 1) + "-" + selectedDay;
+                        selectedDate = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
                         tvSelectedDate.setText(selectedDate);
                     },
                     year, month, day
@@ -125,10 +125,46 @@ public class ReservationActivity extends AppCompatActivity {
         });
 
 
+        btnSubmitReservation.setOnClickListener(v -> {
+
+            String name = etName.getText().toString().trim();
+            String phone = etPhone.getText().toString().trim();
+
+            boolean validForm = isValidEntries();
+
+            if (validForm) {
+
+                Reservation newReservation = new Reservation(selectedDate, selectedPlaces, selectedTime, endTime, name, phone, selectedRestaurant.getNomRestaurant());
+                reservations.add(newReservation);
 
 
+                selectedRestaurant.setNbPlacesRestantes(selectedRestaurant.getNbPlacesRestantes() - selectedPlaces);
+                tvRemainingSeats.setText(String.valueOf(selectedRestaurant.getNbPlacesRestantes()));
+
+
+                Toast.makeText(ReservationActivity.this, "La réservation a été sauvegardée", Toast.LENGTH_SHORT).show();
+
+
+                Log.d("reservation", newReservation.toString());
+
+
+                etName.setText("");
+                etPhone.setText("");
+                seekBarPlaces.setProgress(0);
+                tvPlacesSelected.setText("0 places");
+                tvSelectedDate.setText("");
+                spinnerTime.setSelection(0);
+                tvEndTime.setText("");
+
+            }
+
+
+
+        });
 
     }
+
+
 
     private String calculateEndTime(String startTime) {
         String[] timeParts = startTime.split(":");
@@ -144,5 +180,48 @@ public class ReservationActivity extends AppCompatActivity {
 
         return String.format("%02d:%02d", hours, minutes);
     }
+
+    private boolean isValidEntries() {
+        boolean valid = true;
+        String message = "";
+
+        String name = etName.getText().toString().trim();
+        String phone = etPhone.getText().toString().trim();
+
+        if (name.isEmpty()) {
+            message = "Veuillez entrer un nom";
+            valid = false;
+        }
+
+        if (phone.isEmpty() || !isValidPhoneNumber(phone)) {
+            message = "Veuillez entrer un numéro de téléphone";
+            valid = false;
+        }
+
+        if (selectedDate.isEmpty()) {
+            message = "Veuillez sélectionner une date";
+            valid = false;
+        }
+
+        if (selectedPlaces == 0 || selectedPlaces > selectedRestaurant.getNbPlacesRestantes()) {
+            message = "Veuillez sélectionner un bon nombre de places";
+            valid = false;
+        }
+
+        if (selectedDate.isEmpty()) {
+            message = "Veuillez sélectionner une date";
+            valid = false;
+        }
+
+        if (!valid) {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
+        return valid;
+    }
+
+    private boolean isValidPhoneNumber(String phone) {
+        return phone.matches("\\d{10}");
+    }
+
 
 }
